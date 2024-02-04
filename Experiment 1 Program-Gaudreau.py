@@ -60,12 +60,13 @@ def isDecimal(num: str) -> bool:
     return True
 # Returns true if the input number contains only hexadecimal digits
 def isHex(num: str) -> bool:
-    for n in num.upper():
+    for n in num:
         if (not(n in hexDigits)):
             return False
     return True
 
 # Methods to convert betwen base-2, base-10, and base-16
+# Check if the input is of the correct base then apply the conversion algorithm
 def binaryToDec(num: str) -> str:
     if (isBinary(num)):
         result = 0
@@ -93,7 +94,7 @@ def hexToDec(num: str) -> str:
         result = 0
         digit = 0
         for n in reversed(num):
-            result += int(hexDigitToDecimalDigit[n.upper()]) * 16**digit
+            result += int(hexDigitToDecimalDigit[n]) * 16**digit
             digit += 1
         return str(result)
     else:
@@ -115,34 +116,45 @@ def binaryToHex(num: str) -> str:
 def hexToBinary(num: str) -> str:
     return decToBinary(hexToDec(num))
 
-
+# Main method
 def main():
     algorithm = -1
     numToConvert = -1
+
+    # Prompt user to select an algorithm
     while (not(algorithm in range(1,7))):
-        algorithm = int(input("Please select a conversion:\n"
-                              + "1. Binary to Decimal\n"
-                              + "2. Decimal to Binary\n"
-                              + "3. Hexadecimal to Decimal\n"
-                              + "4. Decimal to Hexadecimal\n"
-                              + "5. Binary to Hexadecimal\n"
-                              + "6. Hexadecimal to Binary\n"))
-        if (not(algorithm in range(1,7))):
+        algorithm = input("Please select a conversion:\n"
+                          + "1. Binary to Decimal\n"
+                          + "2. Decimal to Binary\n"
+                          + "3. Hexadecimal to Decimal\n"
+                          + "4. Decimal to Hexadecimal\n"
+                          + "5. Binary to Hexadecimal\n"
+                          + "6. Hexadecimal to Binary\n")
+        if (not(isDecimal(algorithm) and algorithm in range(1,7))):
             print("Invalid entry. Please try again.\n")
-    numToConvert = input("Enter a positive integer to be converted:\n")
+    # Prompt user to input a positive number
+    numToConvert = input("Enter a positive integer to be converted:\n").upper()
+    # Convert the input number in accordance with the selected algorithm,
+    # then print the results
     match algorithm:
         case 1:
-            print(numToConvert + " to decimal is " + binaryToDec(numToConvert))
+            print("Binary number " + numToConvert + " to decimal is "
+                  + binaryToDec(numToConvert))
         case 2:
-            print(numToConvert + " to binary is " + decToBinary(numToConvert))
+            print("Decimal number " + numToConvert + " to binary is "
+                  + decToBinary(numToConvert))
         case 3:
-            print(numToConvert + " to decimal is " + hexToDec(numToConvert))
+            print("Hexadecimal number " + numToConvert + " to decimal is "
+                  + hexToDec(numToConvert))
         case 4:
-            print(numToConvert + " to hexadecimal is " + decToHex(numToConvert))
+            print("Decimal number " + numToConvert + " to hexadecimal is "
+                  + decToHex(numToConvert))
         case 5:
-            print(numToConvert + " to hexadecimal is " + binaryToHex(numToConvert))
+            print("Binary number " + numToConvert + " to hexadecimal is "
+                   + binaryToHex(numToConvert))
         case 6:
-            print(numToConvert + " to binary is " + hexToBinary(numToConvert))
+            print("Hexadecimal number " + numToConvert + " to binary is "
+                  + hexToBinary(numToConvert))
     return
 
 main()
